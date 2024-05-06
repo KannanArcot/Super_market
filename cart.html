@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .remove-btn {
+            background-color: #ff0000;
+            color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            font-weight: bolder;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 2px 2px 4px black;
+        }
+        #place-order-btn{            
+            background-color: #f8ff2a;
+            color: #000000;
+            border: none;
+            font-weight: bolder;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 2px 2px 4px black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cart</h1>
+    <table id="cart-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Product Cost</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here dynamically using JavaScript -->
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Total:</td>
+                <td id="total-products"></td>
+                <td id="total-quantity"></td>
+                <td id="total-cost"></td>
+                <td><button id="place-order-btn">Place Order</button></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <script>
+        // Get the data from the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const data = urlParams.get('data');
+
+        // Parse the JSON data
+        let cartItems = [];
+        if (data) {
+            cartItems = JSON.parse(decodeURIComponent(data));
+        }
+
+        // Get the table body element
+        const tbody = document.querySelector('#cart-table tbody');
+        // Get the total products element
+        const totalProductsElement = document.getElementById('total-products');
+        // Get the total quantity element
+        const totalQuantityElement = document.getElementById('total-quantity');
+        // Get the total cost element
+        const totalCostElement = document.getElementById('total-cost');
+
+        // Function to update cart and render table
+        function updateCart() {
+            // Clear previous data
+            tbody.innerHTML = '';
+
+            // Create an object to store quantity of each product
+            const quantityMap = {};
+            let totalProducts = 0;
+            let totalQuantity = 0;
+            let totalCost = 0;
+
+            // Count the quantity of each product
+            cartItems.forEach(item => {
+                if (quantityMap[item.name]) {
+                    quantityMap[item.name]++;
+                } else {
+                    quantityMap[item.name] = 1;
+                    totalProducts++; // Increment total products for each unique item
+                }
+                totalQuantity++; // Increment total quantity for each item
+                totalCost += item.price; // Add the price of each item to the total cost
+            });
+
+            // Loop through the cart items and add them to the table
+            Object.keys(quantityMap).forEach(name => {
+                const quantity = quantityMap[name];
+                const price = cartItems.find(item => item.name === name).price;
+                const total = price * quantity;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${name}</td>
+                    <td>${price}</td>
+                    <td>${quantity}</td>
+                    <td>${price} * ${quantity} = ${total}</td>
+                    <td><button class="remove-btn" onclick="removeItem('${name}')">Remove</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Update the total products, total quantity, and total cost
+            totalProductsElement.textContent = totalProducts;
+            totalQuantityElement.textContent = totalQuantity;
+            totalCostElement.textContent = totalCost;
+        }
+
+        // Function to remove an item from the cart
+        function removeItem(name) {
+            // Remove all items with the given name
+            cartItems = cartItems.filter(item => item.name !== name);
+            updateCart();
+        }
+
+        // Initial rendering of cart
+        updateCart();
+    </script>
+</body>
+</html>

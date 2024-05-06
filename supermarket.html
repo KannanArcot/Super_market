@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Fruits Store</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        header {
+            background: linear-gradient(to right, #11998e, #38ef7d);
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        header nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        header nav ul li {
+            display: inline;
+			font-weight: bolder;
+        }
+
+        header nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        header nav ul li a:hover {
+            color: #f3f4f6;
+			font-size: 20px;
+			text-shadow: 0px 0px 5px aqua;
+        }
+
+        #products {
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        .product {
+			width:250px;
+			height:300px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+			box-shadow: 0px 0px 10px grey;
+        }
+
+        .product img {
+            width: 200px;
+            max-width: 200px;
+            height: 100px;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .product h3 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .product p {
+            color: #666666;
+            margin-bottom: 0.5rem;
+        }
+
+        .product button {
+            background: linear-gradient(to right, #11998e, #38ef7d);
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            outline: none;
+        }
+
+        .product button:hover {
+            background: linear-gradient(to right, #0c8976, #30c270);
+        }
+
+        #cart {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+        }
+
+        #cart h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        #cart-items {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item button {
+            background: linear-gradient(to right, #ff4d4f, #ff6382);
+            color: #ffffff;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            outline: none;
+        }
+
+        .cart-item button:hover {
+            background: linear-gradient(to right, #e63c3f, #f34d6f);
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity button {
+            background: linear-gradient(to right, #11998e, #38ef7d);
+            color: #ffffff;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            outline: none;
+        }
+
+        .quantity button:hover {
+            background: linear-gradient(to right, #0c8976, #30c270);
+        }
+
+        .quantity input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 0 0.5rem;
+            padding: 4px;
+            outline: none;
+        }
+		.fruits-align{
+			display:grid;
+			grid-template-columns: auto auto auto auto auto;
+			justify-content: space-around;
+			width:100%;
+			height:auto;
+		}
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>A-Z ANY TYPES OF FRUITS</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <!-- <li><a href="#">Products</a></li> -->
+                    <li>
+							<a href="#" onclick="goToCart()" style="font-weight: bold;">&#128722;Cart</a>
+					</li>
+                    <!-- <li><a href="#">Contact</a></li> -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="inner-container">
+        <section id="products">
+            <h2>Available Products</h2>
+            <div class="fruits-align">
+                <div class="product">
+                    <img src="C:\Users\yadav\OneDrive\Desktop\fruits\Apple.jpeg" alt="Apple">
+                    <h3>Apple</h3>
+                    <p>Kg:200.00</p>
+                    <button onclick="addToCart('Apple', 200.00)">
+                        Add to Cart
+                    </button>
+                </div>
+				<div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Apricot.jpeg" alt="Apricot">
+					<h3>Apricot</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Apricot', 350.00)">Add to Cart</button>
+				</div>
+				
+				<div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Banana.jpeg" alt="Banana">
+					<h3>Banana</h3>
+					<p>Dozens:40.00</p>
+					<button onclick="addToCart('Banana', 40.00)">Add to Cart</button>
+				</div>
+				
+				<div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Blackberry.jpeg" alt="Blackberry">
+					<h3>Blackberry</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Blackberry', 350.00)">Add to Cart</button>
+				</div>
+
+				<div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Blueberry.jpeg" alt="Blueberry">
+					<h3>Blueberry</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Blueberry', 350.00)">Add to Cart</button>
+				</div>
+
+				<div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Boysenberry.jpeg" alt="Boysenberry">
+					<h3>Boysenberry</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Boysenberry', 350.00)">Add to Cart</button>
+				</div>
+				
+				<div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Canary Melon.jpeg" alt="Canary Melon ">
+					<h3>Canary Melon </h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Canary Melon ', 350.00)">Add to Cart</button>
+				</div>
+				
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Cantaloupe.jpeg" alt="Cantaloupe">
+					<h3>Cantaloupe </h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Cantaloupe ', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Casaba Melon.jpeg" alt="Casaba Melon">
+					<h3>Casaba Melon </h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Casaba Melon', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Cherimoya.jpeg" alt="Cherimoya">
+					<h3>Cherimoya  </h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Cherimoya', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Cherry.jpeg" alt="Cherry ">
+					<h3>Cherry</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Cherry', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Christmas Melon.jpeg" alt="Christmas Melon">
+					<h3>Christmas Melon</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Christmas Melon', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Clementine.jpeg" alt="Clementine">
+					<h3>Clementine</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Clementine', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Cranberry.jpeg" alt="Cranberry">
+					<h3>Cranberry</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Cranberry', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Crenshaw Melon.jpeg" alt="Crenshaw Melon">
+					<h3>Crenshaw Melon</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Crenshaw Melon', 350.00)">Add to Cart</button>
+				</div>    
+                
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Currants.jpeg" alt="Currants">
+					<h3>Currants</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Currants', 350.00)">Add to Cart</button>
+				</div>        
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Dates (tree dried only).jpeg" alt="Dates (tree dried only)">
+					<h3>Dates (tree dried only)</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Dates (tree dried only)', 350.00)">Add to Cart</button>
+				</div>    
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Dragon Fruit.jpeg" alt="Dragon Fruit">
+					<h3>Dragon Fruit</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Dragon Fruit', 350.00)">Add to Cart</button>
+				</div>    
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Durian (purchase cut).jpeg" alt="Durian (purchase cut)">
+					<h3>Durian (purchase cut)</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Durian (purchase cut)', 350.00)">Add to Cart</button>
+				</div>    
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Figs.jpeg" alt="Figs">
+					<h3>Figs</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Figs', 350.00)">Add to Cart</button>
+				</div>    
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Gooseberry.jpeg" alt="Gooseberry">
+					<h3>Gooseberry</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Gooseberry', 350.00)">Add to Cart</button>
+				</div>    
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Grapes.jpeg" alt="Grapes">
+					<h3>Grapes</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Grapes', 350.00)">Add to Cart</button>
+				</div>    
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Grapefruit.jpeg" alt="Grapefruit">
+					<h3>Grapefruit</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Grapefruit', 350.00)">Add to Cart</button>
+				</div>      
+                
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Guava.jpeg" alt="Guava">
+					<h3>Guava</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Guava', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Honeydew Melon.jpeg" alt="Honeydew Melon">
+					<h3>Honeydew Melon</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Honeydew Melon', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Horned Melon.jpeg" alt="Horned Melon">
+					<h3>Horned Melon</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Horned Melon', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Jack Fruit.jpeg" alt="Jack Fruit">
+					<h3>Jack Fruit</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Jack Fruit', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Jujube.jpeg" alt="Jujube">
+					<h3>Jujube</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Jujube', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Kiwi.jpeg" alt="Kiwi">
+					<h3>Kiwi</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Kiwi', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Kumquat.jpeg" alt="Kumquat">
+					<h3>Kumquat</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Kumquat', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Lemon.jpeg" alt="Lemon">
+					<h3>Lemon</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Lemon', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Lime.jpeg" alt="Lime">
+					<h3>Lime</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Lime', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Loganberry.jpeg" alt="Loganberry">
+					<h3>Loganberry</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Loganberry', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Longan.jpeg" alt="Longan">
+					<h3>Longan</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Longan', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Loquat.jpeg" alt="Loquat">
+					<h3>Loquat</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Loquat', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Lychee.jpeg" alt="Lychee">
+					<h3>Lychee</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Lychee', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Mandarin.jpeg" alt="Mandarin">
+					<h3>Mandarin</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Mandarin', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Mango.jpeg" alt="Mango">
+					<h3>Mango</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Mango', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Mangosteen.jpeg" alt="Mangosteen">
+					<h3>Mangosteen</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Mangosteen', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Mamoncillo.jpeg" alt="Mamoncillo">
+					<h3>Mamoncillo</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Mamoncillo', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Minneola.jpeg" alt="Minneola">
+					<h3>Minneola</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Minneola', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Musk Melon.jpeg" alt="Musk Melon">
+					<h3>Musk Melon</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Musk Melon', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Nance.jpeg" alt="Nance">
+					<h3>Nance</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Nance', 350.00)">Add to Cart</button>
+				</div> 
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Nectarine.jpeg" alt="Nectarine">
+					<h3>Nectarine</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Nectarine', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Orange.jpeg" alt="Orange">
+					<h3>Orange</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Orange', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Blood Orange.jpeg" alt="Blood Orange">
+					<h3>Blood Orange</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Blood Orange', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Papaya.jpeg" alt="Papaya">
+					<h3>Papaya</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Papaya', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Passion Fruit.jpeg" alt="Passion Fruit">
+					<h3>Passion Fruit</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Passion Fruit', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Peach.jpeg" alt="Peach">
+					<h3>Peach</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Peach', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Pear.jpeg" alt="Pear">
+					<h3>Pear</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Pear', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Persimmon.jpeg" alt="Persimmon">
+					<h3>Persimmon</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Persimmon', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Pineapple.jpeg" alt="Pineapple">
+					<h3>Pineapple</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Pineapple', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Plum.jpeg" alt="Plum">
+					<h3>Plum</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Plum', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Pomegranate.jpeg" alt="Pomegranate">
+					<h3>Pomegranate</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Pomegranate', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Prickly (cactus) Pear.jpeg" alt="Prickly (cactus) Pear">
+					<h3>Prickly (cactus) Pear</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Prickly (cactus) Pear', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Pommelo.jpeg" alt="Pommelo">
+					<h3>Pommelo</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Pommelo', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Pulasan.jpeg" alt="Pulasan">
+					<h3>Pulasan</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Pulasan', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Rambutan.jpeg" alt="Rambutan">
+					<h3>Rambutan</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Rambutan', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Raspberries.jpeg" alt="Raspberries">
+					<h3>Raspberries</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Raspberries', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Satsuma.jpeg" alt="Satsuma">
+					<h3>Satsuma</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Satsuma', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Soursop.jpeg" alt="Soursop">
+					<h3>Soursop</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Soursop', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Star Fruit (Carambola).jpeg" alt="Star Fruit (Carambola)">
+					<h3>Star Fruit (Carambola)</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Star Fruit (Carambola)', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Strawberry.jpeg" alt="Strawberry">
+					<h3>Strawberry</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Strawberry', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Tamarillo.jpeg" alt="Tamarillo">
+					<h3>Tamarillo</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Tamarillo', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Tangelo.jpeg" alt="Tangelo">
+					<h3>Tangelo</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Tangelo', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Tangerine.jpeg" alt="Tangerine">
+					<h3>Tangerine</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Tangerine', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Ugli fruit.jpeg" alt="Ugli fruit">
+					<h3>Ugli fruit</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Ugli fruit', 350.00)">Add to Cart</button>
+				</div>
+
+                <div class="product">
+					<img src="C:\Users\yadav\OneDrive\Desktop\fruits\Watermelon.jpeg" alt="Watermelon">
+					<h3>Watermelon</h3>
+					<p>Kg:350.00</p>
+					<button onclick="addToCart('Watermelon', 350.00)">Add to Cart</button>
+				</div>
+            </div>
+        </section>
+    </div>
+    <script>
+let cartItems = [];
+function addToCart(name, price) {
+    const item = {
+        name: name,
+        price: price
+    };
+    cartItems.push(item);
+    console.log(cartItems);
+}
+function goToCart() {
+    const cartData = encodeURIComponent(JSON.stringify(cartItems));
+    const cartPageURL = 'cart.html?data=' + cartData;
+    window.location.href = cartPageURL;
+}
+
+        function deleteFromCart(index) {
+            Items.splice(index, 1);
+            updateCartDisplay();
+        }
+        function updateQuantity(index, quantity) {
+            Items[index].quantity = quantity;
+            updateCartDisplay();
+        }
+        function checkout() {
+            let totalPrice = 0;
+            Items.forEach(item => {
+                totalPrice += item.price * item.quantity;
+            });
+            alert("Total price: ${totalPrice.toFixed(2)}");
+        }
+        function updateCartDisplay() {
+            const cartElement = document.getElementById('cart-items');
+            cartElement.innerHTML = '';
+            Items.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = 'cart-item';
+                li.innerHTML = `
+                    <span>${item.name} - $${item.price.toFixed(2)} x 
+                    <div class="quantity">
+                        <button onclick="updateQuantity(${index},
+                         ${item.quantity - 1})">-</button>
+                        <input type="number" 
+                        value="${item.quantity}" 
+                        min="1" max="10" 
+                        onchange="updateQuantity(${index},
+                         this.value)">
+                        <button 
+                        onclick="updateQuantity(${index},
+                         ${item.quantity + 1})">+</button>
+                    </div>
+                    </span>
+                    <button onclick="deleteFromCart(${index})">Delete</button>
+                `;
+                cartElement.appendChild(li);
+            });
+        }
+    </script>
+</body>
+
+</html>
